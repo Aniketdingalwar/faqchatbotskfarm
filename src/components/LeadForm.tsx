@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,144 +20,148 @@ export interface LeadData {
   message?: string;
 }
 
-export function LeadForm({ onClose, onSubmit }: LeadFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState<LeadData>({
-    name: "",
-    phone: "",
-    location: "",
-    farmSize: "",
-    message: ""
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.name || !formData.phone || !formData.location) {
-      toast({
-        title: "Please fill required fields",
-        description: "Name, phone, and location are required.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    onSubmit(formData);
-    setIsSubmitting(false);
-    
-    toast({
-      title: "Request submitted! 🌱",
-      description: "Our team will contact you within 24 hours."
+export const LeadForm = forwardRef<HTMLDivElement, LeadFormProps>(
+  ({ onClose, onSubmit }, ref) => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formData, setFormData] = useState<LeadData>({
+      name: "",
+      phone: "",
+      location: "",
+      farmSize: "",
+      message: ""
     });
-    
-    onClose();
-  };
 
-  return (
-    <Card className="p-4 animate-slide-up border-primary/20 shadow-chat bg-card">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-foreground font-heading">Request a Callback</h3>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onClose}
-          className="h-8 w-8 rounded-full hover:bg-muted"
-        >
-          <X className="h-4 w-4" />
-        </Button>
-      </div>
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      
+      if (!formData.name || !formData.phone || !formData.location) {
+        toast({
+          title: "Please fill required fields",
+          description: "Name, phone, and location are required.",
+          variant: "destructive"
+        });
+        return;
+      }
 
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <div className="space-y-1.5">
-          <Label htmlFor="name" className="text-sm text-muted-foreground">
-            Name <span className="text-destructive">*</span>
-          </Label>
-          <Input
-            id="name"
-            placeholder="Your full name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="bg-background border-input"
-          />
+      setIsSubmitting(true);
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      onSubmit(formData);
+      setIsSubmitting(false);
+      
+      toast({
+        title: "Request submitted! 🌱",
+        description: "Our team will contact you within 24 hours."
+      });
+      
+      onClose();
+    };
+
+    return (
+      <Card ref={ref} className="p-4 animate-slide-up border-primary/20 shadow-chat bg-card">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-foreground font-heading">Request a Callback</h3>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+            className="h-8 w-8 rounded-full hover:bg-muted"
+          >
+            <X className="h-4 w-4" />
+          </Button>
         </div>
 
-        <div className="space-y-1.5">
-          <Label htmlFor="phone" className="text-sm text-muted-foreground">
-            Phone Number <span className="text-destructive">*</span>
-          </Label>
-          <Input
-            id="phone"
-            type="tel"
-            placeholder="+91 XXXXX XXXXX"
-            value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            className="bg-background border-input"
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="space-y-1.5">
+            <Label htmlFor="name" className="text-sm text-muted-foreground">
+              Name <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="name"
+              placeholder="Your full name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="bg-background border-input"
+            />
+          </div>
 
-        <div className="space-y-1.5">
-          <Label htmlFor="location" className="text-sm text-muted-foreground">
-            Location / District <span className="text-destructive">*</span>
-          </Label>
-          <Input
-            id="location"
-            placeholder="Your village / district"
-            value={formData.location}
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-            className="bg-background border-input"
-          />
-        </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="phone" className="text-sm text-muted-foreground">
+              Phone Number <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="phone"
+              type="tel"
+              placeholder="+91 XXXXX XXXXX"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="bg-background border-input"
+            />
+          </div>
 
-        <div className="space-y-1.5">
-          <Label htmlFor="farmSize" className="text-sm text-muted-foreground">
-            Farm Size (acres)
-          </Label>
-          <Input
-            id="farmSize"
-            placeholder="e.g., 5 acres"
-            value={formData.farmSize}
-            onChange={(e) => setFormData({ ...formData, farmSize: e.target.value })}
-            className="bg-background border-input"
-          />
-        </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="location" className="text-sm text-muted-foreground">
+              Location / District <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="location"
+              placeholder="Your village / district"
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+              className="bg-background border-input"
+            />
+          </div>
 
-        <div className="space-y-1.5">
-          <Label htmlFor="message" className="text-sm text-muted-foreground">
-            How can we help?
-          </Label>
-          <Textarea
-            id="message"
-            placeholder="Tell us about your farming needs..."
-            rows={2}
-            value={formData.message}
-            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-            className="bg-background border-input resize-none"
-          />
-        </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="farmSize" className="text-sm text-muted-foreground">
+              Farm Size (acres)
+            </Label>
+            <Input
+              id="farmSize"
+              placeholder="e.g., 5 acres"
+              value={formData.farmSize}
+              onChange={(e) => setFormData({ ...formData, farmSize: e.target.value })}
+              className="bg-background border-input"
+            />
+          </div>
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-gradient-chat hover:opacity-90 text-primary-foreground"
-        >
-          {isSubmitting ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Submitting...
-            </>
-          ) : (
-            <>
-              <Send className="mr-2 h-4 w-4" />
-              Request Callback
-            </>
-          )}
-        </Button>
-      </form>
-    </Card>
-  );
-}
+          <div className="space-y-1.5">
+            <Label htmlFor="message" className="text-sm text-muted-foreground">
+              How can we help?
+            </Label>
+            <Textarea
+              id="message"
+              placeholder="Tell us about your farming needs..."
+              rows={2}
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              className="bg-background border-input resize-none"
+            />
+          </div>
+
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-gradient-chat hover:opacity-90 text-primary-foreground"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              <>
+                <Send className="mr-2 h-4 w-4" />
+                Request Callback
+              </>
+            )}
+          </Button>
+        </form>
+      </Card>
+    );
+  }
+);
+
+LeadForm.displayName = "LeadForm";

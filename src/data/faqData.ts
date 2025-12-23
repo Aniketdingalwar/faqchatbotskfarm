@@ -71,13 +71,34 @@ export const faqData: FAQ[] = [
     followUp: ["Request defence consultation", "Contact sales"]
   },
 
-  // Drone Lab Setup
+  // Drone Lab Setup - COMPREHENSIVE
   {
     id: "drone-lab",
-    keywords: ["drone lab", "lab setup", "research", "facility", "prototyping", "testing", "innovation", "development", "r&d"],
+    keywords: ["drone lab", "lab setup", "research", "facility", "prototyping", "testing", "innovation", "development", "r&d", "lab"],
     question: "What is your Drone Lab Setup service?",
-    answer: "🔬 **Advanced Drone Lab & Research Facility**\n\nOur specialized facility supports the full workflow of unmanned aerial systems—from concept to flight testing.\n\n**Core Services:**\n🛠️ Design & Prototyping - Complete support for building new systems\n🛸 Indoor Flight Testing - Safe controlled environment for stability checks\n🧠 Software & AI Simulation - Test algorithms, navigation, computer vision\n🔧 Calibration & Repair - IMU/compass calibration, sensor tuning\n📊 Data Capture & Analysis - 2D/3D mapping, NDVI, thermal imaging\n\n**Industries Supported:** Agriculture, Construction, Industrial, Security, Logistics\n\n✅ 100% Safety Compliant | ✅ Rapid Prototyping | ✅ Expert Technical Support",
-    followUp: ["Partner with drone lab", "Request consultation"]
+    answer: "🔬 **Advanced Drone Lab & Research Facility**\n\nOur Innovation Hub is a specialized environment for the complete unmanned aerial systems workflow—from concept and prototyping to calibration and flight testing.\n\n**Who It's For:**\n🏢 Businesses & Startups\n🎓 Educational Institutes\n🏛️ Government Teams\n\n✅ 100% Safety Compliant\n✅ Rapid Prototyping Capabilities\n✅ Skilled Technical Support\n\nWe provide advanced tools, expert guidance, and controlled environments for confident drone technology exploration!",
+    followUp: ["Drone lab services", "Industries supported", "Partner with drone lab"]
+  },
+  {
+    id: "drone-lab-services",
+    keywords: ["lab service", "prototyping", "flight testing", "calibration", "repair", "simulation", "data analysis", "lab offer"],
+    question: "What services does the Drone Lab offer?",
+    answer: "🛠️ **Core Drone Lab Services:**\n\n**1. Design & Prototyping**\nComplete support for building new systems. Workstations for assembling frames, motors, and sensors. Experiment with materials and new payload configurations.\n\n**2. Indoor Flight Testing** 🛸\nA controlled indoor flight zone for safe testing. Conduct stability checks, hover tests, obstacle avoidance trials, and takeoff/landing analysis without weather risks.\n\n**3. Software & AI Simulation** 🧠\nTest flight algorithms, navigation, and computer vision. High-precision simulations for weather conditions, uneven terrain, and emergency behaviors.\n\n**4. Calibration & Repair** 🔧\nPeak performance with IMU/compass calibration, sensor tuning, and battery health monitoring. Professional maintenance for reliable operations.\n\n**5. Data Capture & Analysis** 📊\nProcess data from drone sensors. Services include 2D/3D mapping, NDVI crop analysis, thermal imaging, and detailed flight log analytics.",
+    followUp: ["Industries you support", "Partner with lab", "Book consultation"]
+  },
+  {
+    id: "drone-lab-industries",
+    keywords: ["industry", "sector", "agriculture lab", "construction", "industrial", "logistics", "security sector", "supported"],
+    question: "Which industries does the Drone Lab support?",
+    answer: "🌐 **Industries We Empower:**\n\n🌾 **Agriculture**\nPrecision farming, crop monitoring, spraying solutions\n\n🏗️ **Construction**\nSite surveys, progress monitoring, 3D mapping\n\n🏭 **Industrial**\nInfrastructure inspection, asset monitoring\n\n🛡️ **Security**\nSurveillance systems, perimeter monitoring\n\n📦 **Logistics**\nDelivery drone prototyping, route optimization\n\nWe provide aerial intelligence solutions tailored to each sector's unique requirements!",
+    followUp: ["Partner with drone lab", "Request consultation", "Get pricing"]
+  },
+  {
+    id: "drone-lab-partner",
+    keywords: ["lab partner", "access lab", "use lab", "join lab", "collaborate lab", "rent lab", "lab partnership"],
+    question: "How can I partner with or access the Drone Lab?",
+    answer: "🤝 **Partner With Our Drone Lab**\n\nGain affordable access to advanced tools, rapid prototyping, and expert guidance!\n\n**Partnership Options:**\n• 🏢 **Corporate R&D** - Use our facility for drone development\n• 🎓 **Academic Collaboration** - Research partnerships with institutions\n• 🚀 **Startup Incubation** - Build your drone prototype with our support\n• 🏛️ **Government Projects** - Custom drone solutions for govt. initiatives\n\n**How to Get Started:**\n1️⃣ Contact our team\n2️⃣ Schedule a facility tour\n3️⃣ Discuss your project requirements\n4️⃣ Begin development with expert support\n\n📧 Email: connect@sknaturalfarm.in\n📞 Phone: +91 7827335954",
+    followUp: ["Book consultation", "Send my details", "View facility"]
   },
 
   // Agri Services
@@ -201,12 +222,12 @@ export const quickReplies = [
   "What services do you offer?",
   "Drone pricing",
   "Book a demo",
-  "Contact details",
-  "Career opportunities"
+  "Drone Lab Setup",
+  "Contact details"
 ];
 
 export const welcomeMessage = {
-  text: "🌾 Namaste! Welcome to SK Natural Farm!\n\nI'm your smart farming assistant. We're transforming agriculture with AI-powered drones, precision farming, and sustainable solutions across India.\n\n**Quick Actions:**\n• Learn about our **Agri Drones** & pricing\n• Explore **Defence Drones** & Drone Lab\n• Discover **Training** programs\n• Get **customized solutions** for your farm\n\nHow can I help you today?",
+  text: "🌾 Namaste! Welcome to SK Natural Farm!\n\nI'm your smart farming assistant. We're transforming agriculture with AI-powered drones, precision farming, and sustainable solutions across India.\n\n**Quick Actions:**\n• Learn about our **Agri Drones** & pricing\n• Explore **Defence Drones** & **Drone Lab**\n• Discover **Training** programs\n• Get **customized solutions** for your farm\n\nHow can I help you today?",
   quickReplies: quickReplies.slice(0, 4)
 };
 
@@ -214,7 +235,7 @@ export function findBestMatch(input: string): FAQ {
   const normalizedInput = input.toLowerCase().trim();
   
   // Check for lead/contact intent
-  const leadKeywords = ["contact", "call", "phone", "email", "reach", "talk", "speak", "connect", "enquiry", "inquiry", "request", "book", "demo", "quote"];
+  const leadKeywords = ["contact", "call", "phone", "email", "reach", "talk", "speak", "connect", "enquiry", "inquiry", "request", "book", "demo", "quote", "callback", "my details"];
   const isLeadIntent = leadKeywords.some(keyword => normalizedInput.includes(keyword));
   
   let bestMatch: FAQ | null = null;
