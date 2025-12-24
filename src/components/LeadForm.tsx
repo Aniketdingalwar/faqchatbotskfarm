@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { X, Send, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LeadFormProps {
   onClose: () => void;
@@ -45,18 +46,47 @@ export const LeadForm = forwardRef<HTMLDivElement, LeadFormProps>(
 
       setIsSubmitting(true);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      onSubmit(formData);
-      setIsSubmitting(false);
-      
-      toast({
-        title: "Request submitted! 🌱",
-        description: "Our team will contact you within 24 hours."
-      });
-      
-      onClose();
+      try {
+        const { data, error } = await supabase.functions.invoke('send-lead-email', {
+          body: {
+            name: formData.name,
+            phone: formData.phone,
+            location: formData.location,
+            farmSize: formData.farmSize,
+            message: formData.message
+          }
+        });
+
+        if (error) {
+          console.error("Error sending lead email:", error);
+          toast({
+            title: "Submission failed",
+            description: "Please try again or contact us directly.",
+            variant: "destructive"
+          });
+          setIsSubmitting(false);
+          return;
+        }
+
+        console.log("Lead email sent successfully:", data);
+        onSubmit(formData);
+        
+        toast({
+          title: "Request submitted! 🌱",
+          description: "Our team will contact you within 24 hours."
+        });
+        
+        onClose();
+      } catch (error) {
+        console.error("Error:", error);
+        toast({
+          title: "Something went wrong",
+          description: "Please try again later.",
+          variant: "destructive"
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
     };
 
     return (
