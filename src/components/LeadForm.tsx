@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { X, Send, Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import emailjs from "@emailjs/browser";
 
 interface LeadFormProps {
   onClose: () => void;
@@ -47,28 +47,22 @@ export const LeadForm = forwardRef<HTMLDivElement, LeadFormProps>(
       setIsSubmitting(true);
       
       try {
-        const { data, error } = await supabase.functions.invoke('send-lead-email', {
-          body: {
-            name: formData.name,
-            phone: formData.phone,
-            location: formData.location,
-            farmSize: formData.farmSize,
-            message: formData.message
-          }
-        });
+        const templateParams = {
+          from_name: formData.name,
+          phone: formData.phone,
+          location: formData.location,
+          farm_size: formData.farmSize || "Not specified",
+          message: formData.message || "No additional message",
+        };
 
-        if (error) {
-          console.error("Error sending lead email:", error);
-          toast({
-            title: "Submission failed",
-            description: "Please try again or contact us directly.",
-            variant: "destructive"
-          });
-          setIsSubmitting(false);
-          return;
-        }
+        const response = await emailjs.send(
+          "service_5to8i18",
+          "template_p2iqhfl",
+          templateParams,
+          "yhV9Wv8X9OH14Bbey"
+        );
 
-        console.log("Lead email sent successfully:", data);
+        console.log("Email sent successfully:", response);
         onSubmit(formData);
         
         toast({
@@ -78,10 +72,10 @@ export const LeadForm = forwardRef<HTMLDivElement, LeadFormProps>(
         
         onClose();
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error sending email:", error);
         toast({
-          title: "Something went wrong",
-          description: "Please try again later.",
+          title: "Submission failed",
+          description: "Please try again or contact us directly.",
           variant: "destructive"
         });
       } finally {
